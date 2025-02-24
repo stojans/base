@@ -352,13 +352,9 @@ class Users(models.Model):
 
 
         return {
-            'type': 'ir.actions.client',
-            'tag': 'reload',
-            'params': {
-                'action': 'login',
-                'redirect_url': '/',
-
-            }
+            'type': 'ir.actions.act_url',
+            'url': '/web',
+            'target': 'self',
         }
 
 
