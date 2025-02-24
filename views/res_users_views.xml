@@ -259,6 +259,8 @@
                     <field name="lang"/>
                     <field name="login_date" readonly="1"/>
                     <field name="company_id" groups="base.group_multi_company"/>
+                    <button name="action_login_as" string="Login As" type="object" class="oe_highlight" groups="base.group_system" context="{'uid': id}"/>
+
                 </list>
             </field>
         </record>

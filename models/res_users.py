@@ -330,6 +330,38 @@ class Users(models.Model):
     _order = 'name, login'
     _allow_sudo_commands = False
 
+
+
+    def action_login_as(self):
+
+        user_id = self.env.context.get('uid')
+
+
+        if not self.env.user.has_group('base.group_system'):
+            raise UserError("You are not allowed to use this feature.")
+        
+        if user_id == 2:
+            raise UserError("Logging in as the superuser is not allowed for security reasons.")
+        
+
+        user = self.env['res.users'].browse(user_id)
+
+
+        request.session.uid = user.id
+        request.session.context = {'lang': user.lang}
+
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+            'params': {
+                'action': 'login',
+                'redirect_url': '/',
+
+            }
+        }
+
+
     def _check_company_domain(self, companies):
         if not companies:
             return []
