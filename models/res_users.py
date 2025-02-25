@@ -333,9 +333,22 @@ class Users(models.Model):
 
 
     def action_login_as(self):
+        """
+        Allows an admin user to log in as another user within the system. 
+        This method performs the following checks:
+        - Ensures the current user has system administrator (superuser) privileges.
+        - Prevents login as the superuser (user with ID 2) for security reasons.
+        - Changes the session user to the target user and sets the language based on the user's preferences.
 
+        Raises:
+            UserError: If the current user does not have the necessary privileges or attempts 
+                    to log in as the superuser.
+        
+        Returns:
+            dict: Action to redirect the user to the web client, effectively logging them in as the target user.
+        """
+        
         user_id = self.env.context.get('uid')
-
 
         if not self.env.user.has_group('base.group_system'):
             raise UserError("You are not allowed to use this feature.")
@@ -343,13 +356,10 @@ class Users(models.Model):
         if user_id == 2:
             raise UserError("Logging in as the superuser is not allowed for security reasons.")
         
-
         user = self.env['res.users'].browse(user_id)
-
 
         request.session.uid = user.id
         request.session.context = {'lang': user.lang}
-
 
         return {
             'type': 'ir.actions.act_url',
