@@ -3,10 +3,15 @@
 
 ## Task 3: Add "Login As" Button on User List (Advanced)
 • Extend the res.users model to add a new button "Login As" in the user list view.
+
 • When clicked, the system should:
+
   o Authenticate as the selected user.
+  
   o Redirect to the home dashboard as that user.
+  
 • Ensure only admin users (with base.group_system) can use this feature.
+
 • Prevent logging in as superuser (ID=2) for security reasons.
 
 ## Installation
